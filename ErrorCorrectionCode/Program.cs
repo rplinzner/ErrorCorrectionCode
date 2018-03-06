@@ -10,7 +10,7 @@ namespace ErrorCorrectionCode
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello Wdorld");
+            Console.WriteLine("Hello World");
         }
     }
 }
