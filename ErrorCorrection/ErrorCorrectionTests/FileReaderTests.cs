@@ -18,7 +18,7 @@ namespace ErrorCorrection.Tests
         {
             
            FileReader fr = new FileReader();
-           var temp = "ć ";
+           var temp = "óćż a";
             var zmienna = fr.BinConvert(temp);
 
             
@@ -29,9 +29,20 @@ namespace ErrorCorrection.Tests
             System.Console.WriteLine("-------------");*/
             System.Console.WriteLine(zmienna);
 
-            
-            
-            
+            int numOfBytes = zmienna.Length / 8;
+            byte[] bytes = new byte[numOfBytes];
+            for (int i = 0; i < numOfBytes; ++i)
+            {
+                bytes[i] = Convert.ToByte(zmienna.Substring(8 * i, 8), 2);
+            }
+
+            string back = System.Text.Encoding.UTF8.GetString(bytes);
+
+            Console.WriteLine(back);
+
+
+
+
 
         }
     }
