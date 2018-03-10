@@ -31,7 +31,7 @@ namespace ErrorCorrection.Tests
 
             
             
-            Console.WriteLine(lol);
+            
 
         }
     }
