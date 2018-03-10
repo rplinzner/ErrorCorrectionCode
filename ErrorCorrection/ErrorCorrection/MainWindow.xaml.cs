@@ -23,6 +23,9 @@ namespace ErrorCorrection
         public MainWindow()
         {
             InitializeComponent();
+
+
+
         }
     }
 }
