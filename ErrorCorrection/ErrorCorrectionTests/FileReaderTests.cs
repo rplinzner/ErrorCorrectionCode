@@ -18,16 +18,10 @@ namespace ErrorCorrection.Tests
         {
             
            FileReader fr = new FileReader();
-<<<<<<< HEAD
-<<<<<<< HEAD
-           var temp = "close";
-           var zmienna = fr.BinConvert(temp);
-=======
-=======
->>>>>>> e1efedeeda8f1e13a40b91fb9d5e2a43c9675925
+
            var temp = "óćż a";
             var zmienna = fr.BinConvert(temp);
->>>>>>> e1efedeeda8f1e13a40b91fb9d5e2a43c9675925
+
 
             char[,] tab_hash = new char[8, 16]
             {
@@ -52,7 +46,6 @@ namespace ErrorCorrection.Tests
                 }
             }
 
-<<<<<<< HEAD
             char[] bin_tab = new char[size];
 
             int j = 0;
@@ -65,8 +58,8 @@ namespace ErrorCorrection.Tests
                     j += 1;
                 }
             }
-=======
-            int numOfBytes = zmienna.Length / 8;
+
+   /*         int numOfBytes = zmienna.Length / 8;
             byte[] bytes = new byte[numOfBytes];
             for (int i = 0; i < numOfBytes; ++i)
             {
@@ -75,29 +68,9 @@ namespace ErrorCorrection.Tests
 
             string back = System.Text.Encoding.UTF8.GetString(bytes);
 
-            Console.WriteLine(back);
+            Console.WriteLine(back);*/
+        
 
-<<<<<<< HEAD
-=======
-            int numOfBytes = zmienna.Length / 8;
-            byte[] bytes = new byte[numOfBytes];
-            for (int i = 0; i < numOfBytes; ++i)
-            {
-                bytes[i] = Convert.ToByte(zmienna.Substring(8 * i, 8), 2);
-            }
-
-            string back = System.Text.Encoding.UTF8.GetString(bytes);
-
-            Console.WriteLine(back);
-
-
-
-
->>>>>>> e1efedeeda8f1e13a40b91fb9d5e2a43c9675925
-
-
-
->>>>>>> e1efedeeda8f1e13a40b91fb9d5e2a43c9675925
 
             System.Console.WriteLine("---------");
             System.Console.WriteLine(bin_tab);
