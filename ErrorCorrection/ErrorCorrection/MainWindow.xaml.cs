@@ -24,8 +24,31 @@ namespace ErrorCorrection
         {
             InitializeComponent();
 
+        }
 
+        private void Save_Button_OnClick(object sender, RoutedEventArgs e)
+        {
+            if (this.SaveModeSelect == null) return;
+            if (this.SaveModeSelect.SelectedItem == null)
+            {
+                MessageBox.Show("Najpierw wybierz tryb zapisu!", "Ostrzezenie", MessageBoxButton.OK,
+                    MessageBoxImage.Exclamation);
+                return;
+            }
+           
+           var type = (string) this.SaveModeSelect.SelectionBoxItem;
+           
+            if (FileHandler.SaveFile(this.FileContent.Text, type) == true)
+                MessageBox.Show("Zapis do pliku powiodl sie!", "Informacja", MessageBoxButton.OK,
+                    MessageBoxImage.Information);
+            else MessageBox.Show("Zapis do pliku NIE powiodl sie!", "Ostrzezenie", MessageBoxButton.OK,
+                MessageBoxImage.Warning);
+        }
 
+        private void OpenButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            var text = FileHandler.OpenFile();
+            this.FileContent.Text = text;
         }
     }
 }

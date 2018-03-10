@@ -15,13 +15,20 @@ namespace ErrorCorrection
             return text;
         }
 
-        public  string BinConvert(string word)
+        public char[] BinConvert(string word)
         {
             var bytes = Encoding.UTF8.GetBytes(word);
            
+<<<<<<< HEAD
             var binStr = string.Join(" ", bytes.Select(b => Convert.ToString(b, 2).PadLeft(8,'0')));
+            var charArray = binStr.ToCharArray();
+            return charArray;
+
+=======
+            var binStr = string.Join("", bytes.Select(b => Convert.ToString(b, 2).PadLeft(8,'0')));
             return binStr;
             
+>>>>>>> e1efedeeda8f1e13a40b91fb9d5e2a43c9675925
         }
 
 
