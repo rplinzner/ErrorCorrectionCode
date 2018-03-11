@@ -71,15 +71,15 @@ namespace ErrorCorrection
         {
             char[,] errors = new char[bin_tab.Length/16,8];
 
-            for (int i = 0; i < bin_tab.Length / 8; i++)
-            {
-                bool czy_parzyste = false;
-
+            for (int i = 0; i < bin_tab.Length / 16; i++)
+            {         
                 for (int j = 0; j < 8; j++)
                 {
-                    for (int k = 8; k < 16; k++)
+                    bool czy_parzyste = false;
+
+                    for (int k = 0; k < 16; k++)
                     {
-                        if (bin_tab[i, k - 8] == '1' && bin_tab[i, k - 8] == tab_hash[j, k - 8])
+                        if (bin_tab[i, k].Equals('1') && tab_hash[j, k].Equals('1'))
                         {
                             czy_parzyste = !czy_parzyste;
                         }
