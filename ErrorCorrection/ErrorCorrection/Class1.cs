@@ -24,14 +24,7 @@ namespace ErrorCorrection
             return charArray;
         }
 
-        public char[] CheckErrors(char[,] mat)
-        {
-            char[] errors = new char[mat.Length/16];
-
-
-
-            return errors;
-        }
+       
 
 
     }

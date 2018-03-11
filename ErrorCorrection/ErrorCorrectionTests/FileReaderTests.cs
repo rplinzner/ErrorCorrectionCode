@@ -60,24 +60,6 @@ namespace ErrorCorrection.Tests
                 }
             }
 
-            string example = "0100111100100111\r\n0100111100100111\r\n0100111100100111\r\n";
-
-            var e = FileHandler.ReadFile(example);
-            string ss = FileHandler.Extract_8_bit();
-
-            int numOfBytes = ss.Length / 8;
-            byte[] bytes = new byte[numOfBytes];
-            for (int i = 0; i < numOfBytes; ++i)
-            {
-                bytes[i] = Convert.ToByte(zmienna.Substring(8 * i, 8), 2);
-            }
-
-            string back = System.Text.Encoding.UTF8.GetString(bytes);
-
-            Console.WriteLine(back);*/
-
-            System.Console.WriteLine("---------");
-            System.Console.WriteLine(bin_tab);
 
         
             string s = new string(zmienna);

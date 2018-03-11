@@ -43,10 +43,11 @@ namespace ErrorCorrection
             for (int i = 0; i < bin_tab.Length / 8; i++)
             {
                 bool czy_parzyste = false;
+
                 for(int j=0; j<8; j++)
-                {    for (int k = 8; k < 16; k++)
+                {
+                    for (int k = 8; k < 16; k++)
                     {
-                    
                         if (full_m[i, k - 8] == '1' && full_m[i, k - 8] == tab_hash[j, k - 8])
                         {
                             czy_parzyste = !czy_parzyste;
@@ -61,79 +62,44 @@ namespace ErrorCorrection
                             full_m[i, k] = '1';
                         }
                     }
-
-                }
-
-                
+                }         
             }
             return full_m;
-
-            /* for (int k = 0; k < bin_tab.Length / 8; k++)
-             {
-                 char[] suma_k = new char[8];
-
-                 for (int i = 0; i < 8; i++)
-                 {
-                     bool czy_parzyste = false;
-
-                     for (int j = 0; j < 8; j++)
-                     {
-
-                         if (bin_tab[k, j] == '1' && bin_tab[k, j] == tab_hash[i, j])
-                         {
-                             czy_parzyste = !czy_parzyste;
-                         }
-
-                         if (!czy_parzyste)
-                         {
-                             suma_k[i] = '0';
-                         }
-                         else
-                         {
-                             suma_k[i] = '1';
-                         }
-
-                     }
-                 }
-
-                 full_m[k]
-
-             }*/
-
         }
 
-
-        public char[] mnozenie_macierzy(char[] wiersz, char[,] tab_hash)
+        public char[,] CheckErrors(char[,] bin_tab, char[,] tab_hash)
         {
-            char[] wynik = new char[8];
+            char[,] errors = new char[bin_tab.Length/16,8];
 
-            for (int i = 0; i < 8; i++)
+            for (int i = 0; i < bin_tab.Length / 8; i++)
             {
-                var czyParzyste = false;
+                bool czy_parzyste = false;
 
-                for (int j = 0; j < 16; j++)
+                for (int j = 0; j < 8; j++)
                 {
-                    if (wiersz[j] == '1' &&  tab_hash[i, j] == '1')
+                    for (int k = 8; k < 16; k++)
                     {
-                        czyParzyste = !czyParzyste;
-                    }
+                        if (bin_tab[i, k - 8] == '1' && bin_tab[i, k - 8] == tab_hash[j, k - 8])
+                        {
+                            czy_parzyste = !czy_parzyste;
+                        }
 
-                    if (!czyParzyste)
-                    {
-                        wynik[i] = '0';
-                    }
-                    else
-                    {
-                        wynik[i] = '1';
-                    }
-
+                        if (!czy_parzyste)
+                        {
+                            errors[i, k] = '0';
+                        }
+                        else
+                        {
+                            errors[i, k] = '1';
+                        }
+                    }          
                 }
             }
 
-            return wynik;
+            return errors;
         }
 
-
+      
 
 
     };
