@@ -37,11 +37,13 @@ namespace ErrorCorrection
                 File.WriteAllText(sfd.FileName, text);
                 return true;
             }
+
             return false;
         }
+
         public static string print_array_16_row(char[,] table)
         {
-            String temp=String.Empty;
+            String temp = String.Empty;
 
             for (int i = 0; i < table.Length / 16; i++)
             {
@@ -58,7 +60,7 @@ namespace ErrorCorrection
 
         public static char[,] ReadFile(string text)
         {
-            var size=0;
+            var size = 0;
 
             for (int i = 0; i < text.Length; i++)
             {
@@ -78,9 +80,7 @@ namespace ErrorCorrection
                     ++i;
                     if (text[i].Equals('\n'))
                     {
-                        
                         ++line;
-                       
                     }
                 }
                 else
@@ -91,20 +91,13 @@ namespace ErrorCorrection
                 }
             }
 
+<<<<<<< HEAD
 
-/*
-            for (int i = 0; i < size; i++)
-            {
-                
-                    if ((text[(i+1) * (i*)].Equals('\r')) || (text[(i+1) * j].Equals('\n')))
-                    {
-                        read_mat[i, j] = text[i];
-                    }
-                
-            }*/
-
+=======
+>>>>>>> 1ab52a951a7ac7bec32b05d92d0e09d19abeb7fb
             return read_mat;
         }
+
         public static string Extract_8_bit(char[,] table)
         {
             string temp = String.Empty;
@@ -117,10 +110,30 @@ namespace ErrorCorrection
                     temp += table[i, j];
                 }
             }
+
             return temp;
         }
-    }
-    
+<<<<<<< HEAD
 
-    
+        public static string Decode(string text)
+        {
+            int numOfBytes = text.Length / 8;
+            byte[] bytes = new byte[numOfBytes];
+            for (int i = 0; i < numOfBytes; ++i)
+            {
+                bytes[i] = Convert.ToByte(text.Substring(8 * i, 8), 2);
+            }
+
+            string back = System.Text.Encoding.UTF8.GetString(bytes);
+
+            return back;
+        }
+    }
 }
+=======
+    }
+
+
+
+}
+>>>>>>> 1ab52a951a7ac7bec32b05d92d0e09d19abeb7fb

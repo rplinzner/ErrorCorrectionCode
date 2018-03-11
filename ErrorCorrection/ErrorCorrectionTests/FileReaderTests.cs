@@ -63,9 +63,9 @@ namespace ErrorCorrection.Tests
             string example = "0100111100100111\r\n0100111100100111\r\n0100111100100111\r\n";
 
             var e = FileHandler.ReadFile(example);
-            string ss = 
+            string ss = FileHandler.Extract_8_bit();
 
-   /*       int numOfBytes = zmienna.Length / 8;
+            int numOfBytes = ss.Length / 8;
             byte[] bytes = new byte[numOfBytes];
             for (int i = 0; i < numOfBytes; ++i)
             {
@@ -75,8 +75,6 @@ namespace ErrorCorrection.Tests
             string back = System.Text.Encoding.UTF8.GetString(bytes);
 
             Console.WriteLine(back);*/
-        
-
 
             System.Console.WriteLine("---------");
             System.Console.WriteLine(bin_tab);
