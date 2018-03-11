@@ -41,7 +41,7 @@ namespace ErrorCorrection
         }
         public static string print_array_16_row(char[,] table)
         {
-            String temp=String.Empty;
+            String temp = String.Empty;
 
             for (int i = 0; i < table.Length / 16; i++)
             {
@@ -58,7 +58,7 @@ namespace ErrorCorrection
 
         public static char[,] ReadFile(string text)
         {
-            var size=0;
+            var size = 0;
 
             for (int i = 0; i < text.Length; i++)
             {
@@ -78,9 +78,7 @@ namespace ErrorCorrection
                     ++i;
                     if (text[i].Equals('\n'))
                     {
-                        
                         ++line;
-                       
                     }
                 }
                 else
@@ -90,18 +88,6 @@ namespace ErrorCorrection
                     ++znak;
                 }
             }
-
-
-/*
-            for (int i = 0; i < size; i++)
-            {
-                
-                    if ((text[(i+1) * (i*)].Equals('\r')) || (text[(i+1) * j].Equals('\n')))
-                    {
-                        read_mat[i, j] = text[i];
-                    }
-                
-            }*/
 
             return read_mat;
         }
@@ -120,7 +106,7 @@ namespace ErrorCorrection
             return temp;
         }
     }
-    
 
-    
+
+
 }
