@@ -162,6 +162,10 @@ namespace ErrorCorrection
                     MessageBoxImage.Hand);
                 return;
             }
+            var temp2 = FileHandler.ReadFile(temp1);
+            var mo = new MathOperations();
+            var macierz_bledy = mo.CheckErrors(temp2, mo.get_hash_table());
+            FileContent.Text = FileHandler.print_array_16_row(macierz_bledy);
         }
     }
 }
