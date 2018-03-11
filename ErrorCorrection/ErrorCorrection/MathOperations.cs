@@ -86,11 +86,11 @@ namespace ErrorCorrection
 
                         if (!czy_parzyste)
                         {
-                            errors[i, k] = '0';
+                            errors[i, j] = '0';
                         }
                         else
                         {
-                            errors[i, k] = '1';
+                            errors[i, j] = '1';
                         }
                     }          
                 }
