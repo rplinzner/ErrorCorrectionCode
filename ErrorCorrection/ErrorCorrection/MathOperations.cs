@@ -29,7 +29,7 @@ namespace ErrorCorrection
 
         public char[,] suma_kontrolna(char[,] bin_tab, char[,] tab_hash)
         {
-            char[,] full_m = new char[bin_tab.Length / 8,16];
+            char[,] full_m = new char[bin_tab.Length / 8, 16];
 
             for (int i = 0; i < bin_tab.Length / 8; i++)
             {
@@ -39,32 +39,37 @@ namespace ErrorCorrection
                 }
 
             }
+            char[,] ctrl_sums = new char[bin_tab.Length / 8,8];
 
             for (int i = 0; i < bin_tab.Length / 8; i++)
             {
-                bool czy_parzyste = false;
-
-                for(int j=0; j<8; j++)
+                for (int j = 0; j < 8; j++)
                 {
-                    for (int k = 8; k < 16; k++)
+                    bool czy_parzyste = false;
+                    for (int k = 0; k < 8; k++)
                     {
-                        if (full_m[i, k - 8] == '1' && full_m[i, k - 8] == tab_hash[j, k - 8])
+                        if ((bin_tab[i, k].Equals('1')) && (bin_tab[i, k].Equals(tab_hash[j, k])))
                         {
                             czy_parzyste = !czy_parzyste;
                         }
-
-                        if (!czy_parzyste)
-                        {
-                            full_m[i, k] = '0';
-                        }
-                        else
-                        {
-                            full_m[i, k] = '1';
-                        }
                     }
-                }         
+
+                    if (czy_parzyste) ctrl_sums[i,j] = '1';
+                    else ctrl_sums[i, j] = '0';
+
+                }
             }
+
+            for (int i = 0; i < bin_tab.Length / 8; i++)
+            {
+                for (int j = 0; j < 8; j++)
+                {
+                    full_m[i, j + 8] = ctrl_sums[i, j];
+                }
+            }
+
             return full_m;
+          
         }
 
         public char[,] CheckErrors(char[,] bin_tab, char[,] tab_hash)
