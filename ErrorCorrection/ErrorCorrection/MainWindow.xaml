@@ -35,7 +35,7 @@
 <!--Przyciski do bledow oraz konwersjii-->
         <Button x:Name="KonvTxtBinButton" Click="KonvTxtBinButton_OnClick" BorderThickness="2" Content="Konwersja z tekstu do postaci binarnej" Margin="30 15 30 0" 
                 ToolTip="Konwersja znaków na postać binarną oraz dodanie sumy kontrolnej" />
-        <Button BorderThickness="2" Content="Sprawdź błędy" Margin="30 15 30 0" />
+        <Button x:Name="CheckErrorsButton" Click="CheckErrorsButton_OnClick" BorderThickness="2" Content="Sprawdź błędy" Margin="30 15 30 0" />
         <Button x:Name="KonvBinTxt" Click="KonvBinTxt_OnClick" BorderThickness="2" Content="Konwertuj z postaci binarnej na tekstową" Margin="30 15 30 0" 
                 ToolTip="Usuwa sumę kontrolną, konwertuje postać binarną na tekstową, a następnie wypisuje tekst" />
         <!--Pole do wyswietlania/wpisywania tekstu-->
