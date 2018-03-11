@@ -39,5 +39,23 @@ namespace ErrorCorrection
             }
             return false;
         }
+        public static string print_array_16_row(char[,] table)
+        {
+            String temp=String.Empty;
+
+            for (int i = 0; i < table.Length / 16; i++)
+            {
+                for (int j = 0; j < 16; j++)
+                {
+                    temp += table[i, j];
+                }
+
+                temp += "\r\n";
+            }
+
+            return temp;
+        }
     }
+
+    
 }

@@ -24,7 +24,7 @@
             </Grid.ColumnDefinitions>
             
                     <Button x:Name="OpenButton" Click="OpenButton_OnClick" Content="OTWÓRZ" Margin="0 0 10 0" ToolTip="Odczytaj plik w oknie odczytu" Grid.Column="0" />
-                    <ComboBox x:Name="SaveModeSelect"  Grid.Column="1" Margin="0 0 10 0" ToolTip="Wybierz tryb zapisu">
+                    <ComboBox x:Name="SaveModeSelect"  Grid.Column="1" Margin="0 0 10 0" ToolTip="Wybierz tryb zapisu" SelectionChanged="SaveModeSelect_SelectionChanged">
                           <ComboBoxItem>Plik TXT</ComboBoxItem>
                           <ComboBoxItem>Plik BIN</ComboBoxItem>
                     </ComboBox>
