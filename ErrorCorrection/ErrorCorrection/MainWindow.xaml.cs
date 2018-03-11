@@ -98,9 +98,9 @@ namespace ErrorCorrection
             var mo = new MathOperations();
             var temp3 = mo.suma_kontrolna(temp2, mo.get_hash_table());
 
-            var aaa = FileHandler.print_array_16_row(temp3).ToCharArray();
+            var aaa = FileHandler.print_array_n_row(temp3,16).ToCharArray();
 
-            this.FileContent.Text = FileHandler.print_array_16_row(temp3);
+            this.FileContent.Text = FileHandler.print_array_n_row(temp3,16);
         }
 
         private void KonvBinTxt_OnClick(object sender, RoutedEventArgs e)
@@ -165,7 +165,7 @@ namespace ErrorCorrection
             var temp2 = FileHandler.ReadFile(temp1);
             var mo = new MathOperations();
             var macierz_bledy = mo.CheckErrors(temp2, mo.get_hash_table());
-            FileContent.Text = FileHandler.print_array_16_row(macierz_bledy);
+            FileContent.Text = FileHandler.print_array_n_row(macierz_bledy,8);
         }
     }
 }

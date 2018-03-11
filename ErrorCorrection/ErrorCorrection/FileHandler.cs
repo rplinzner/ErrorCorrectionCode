@@ -41,13 +41,13 @@ namespace ErrorCorrection
             return false;
         }
 
-        public static string print_array_16_row(char[,] table)
+        public static string print_array_n_row(char[,] table, int rows)
         {
             String temp = String.Empty;
 
-            for (int i = 0; i < table.Length / 16; i++)
+            for (int i = 0; i < table.Length / rows; i++)
             {
-                for (int j = 0; j < 16; j++)
+                for (int j = 0; j < rows; j++)
                 {
                     temp += table[i, j];
                 }
@@ -57,6 +57,8 @@ namespace ErrorCorrection
 
             return temp;
         }
+
+       
 
         public static char[,] ReadFile(string text)
         {
