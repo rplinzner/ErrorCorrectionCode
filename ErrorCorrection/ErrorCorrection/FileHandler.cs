@@ -91,10 +91,6 @@ namespace ErrorCorrection
                 }
             }
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 1ab52a951a7ac7bec32b05d92d0e09d19abeb7fb
             return read_mat;
         }
 
@@ -113,7 +109,7 @@ namespace ErrorCorrection
 
             return temp;
         }
-<<<<<<< HEAD
+
 
         public static string Decode(string text)
         {
@@ -130,10 +126,10 @@ namespace ErrorCorrection
         }
     }
 }
-=======
-    }
+
+    
 
 
 
-}
->>>>>>> 1ab52a951a7ac7bec32b05d92d0e09d19abeb7fb
+
+
