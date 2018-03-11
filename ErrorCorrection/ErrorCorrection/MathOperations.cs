@@ -103,9 +103,6 @@ namespace ErrorCorrection
 
             return errors;
         }
-
-      
-
-
+        
     };
 }

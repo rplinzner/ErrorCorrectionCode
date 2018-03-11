@@ -9,12 +9,7 @@ namespace ErrorCorrection
 {
     public class FileReader
     {
-       public  string FileReading(string txt_file)
-        {
-            string text = System.IO.File.ReadAllText(txt_file);
-            return text;
-        }
-
+       
         public char[] BinConvert(string word)
         {
             var bytes = Encoding.UTF8.GetBytes(word);      

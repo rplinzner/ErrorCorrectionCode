@@ -59,30 +59,6 @@ namespace ErrorCorrection
             
         }
 
-       /* private void SaveModeSelect_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            var combo = (ComboBox) sender;
-            var value = (ComboBoxItem) combo.SelectedValue;
-            string str = (string) value.Content;
-            if (str.Contains("BIN"))
-            {
-                if (this.FileContent.Text == "")
-                {
-                    MessageBox.Show("Nie wczytano Pliku lub nie wpisano znakow!", "Ostrzeżenie", MessageBoxButton.OK,
-                        MessageBoxImage.Warning);
-                    
-                    return;
-                }
-                FileReader fr = new FileReader();
-                var temp1 = fr.BinConvert(this.FileContent.Text);
-                var temp2 = fr.Make8ElementPerRow(temp1);
-                var mo = new MathOperations();
-                var temp3 = mo.suma_kontrolna(temp2, mo.get_hash_table());
-
-                this.FileContent.Text = FileHandler.print_array_16_row(temp3);
-            }
-        }*/
-
         private void KonvTxtBinButton_OnClick(object sender, RoutedEventArgs e)
         {
             if (this.FileContent.Text == "")

@@ -51,7 +51,6 @@ namespace ErrorCorrection
                 {
                     temp += table[i, j];
                 }
-
                 temp += "\r\n";
             }
 
@@ -108,7 +107,6 @@ namespace ErrorCorrection
                     temp += table[i, j];
                 }
             }
-
             return temp;
         }
 
@@ -123,7 +121,6 @@ namespace ErrorCorrection
             }
 
             string back = System.Text.Encoding.UTF8.GetString(bytes);
-
             return back;
         }
     }
