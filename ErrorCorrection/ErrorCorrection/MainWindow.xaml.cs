@@ -29,6 +29,12 @@ namespace ErrorCorrection
         private void Save_Button_OnClick(object sender, RoutedEventArgs e)
         {
             if (this.SaveModeSelect == null) return;
+            if (this.FileContent.Text == "")
+            {
+                MessageBox.Show("Nie ma nic do zapisania", "Ostrzezenie", MessageBoxButton.OK,
+                    MessageBoxImage.Exclamation);
+                return;
+            }
             if (this.SaveModeSelect.SelectedItem == null)
             {
                 MessageBox.Show("Najpierw wybierz tryb zapisu!", "Ostrzezenie", MessageBoxButton.OK,
@@ -49,9 +55,10 @@ namespace ErrorCorrection
         {
             var text = FileHandler.OpenFile();
             this.FileContent.Text = text;
+            
         }
 
-        private void SaveModeSelect_SelectionChanged(object sender, SelectionChangedEventArgs e)
+       /* private void SaveModeSelect_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var combo = (ComboBox) sender;
             var value = (ComboBoxItem) combo.SelectedValue;
@@ -73,6 +80,26 @@ namespace ErrorCorrection
 
                 this.FileContent.Text = FileHandler.print_array_16_row(temp3);
             }
+        }*/
+
+        private void KonvTxtBinButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            if (this.FileContent.Text == "")
+            {
+                MessageBox.Show("Nie wczytano pliku lub nie wpisano znakow!", "Ostrzezenie", MessageBoxButton.OK,
+                    MessageBoxImage.Warning);
+
+                return;
+            }
+            FileReader fr = new FileReader();
+            var temp1 = fr.BinConvert(this.FileContent.Text);
+            var temp2 = fr.Make8ElementPerRow(temp1);
+            var mo = new MathOperations();
+            var temp3 = mo.suma_kontrolna(temp2, mo.get_hash_table());
+
+            var aaa = FileHandler.print_array_16_row(temp3).ToCharArray();
+
+            this.FileContent.Text = FileHandler.print_array_16_row(temp3);
         }
     }
 }
