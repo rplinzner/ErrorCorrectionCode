@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -31,13 +32,13 @@ namespace ErrorCorrection
             if (this.SaveModeSelect == null) return;
             if (this.FileContent.Text == "")
             {
-                MessageBox.Show("Nie ma nic do zapisania", "Ostrzezenie", MessageBoxButton.OK,
+                MessageBox.Show("Nie ma nic do zapisania", "Ostrzeżenie", MessageBoxButton.OK,
                     MessageBoxImage.Exclamation);
                 return;
             }
             if (this.SaveModeSelect.SelectedItem == null)
             {
-                MessageBox.Show("Najpierw wybierz tryb zapisu!", "Ostrzezenie", MessageBoxButton.OK,
+                MessageBox.Show("Najpierw wybierz tryb zapisu!", "Ostrzeżenie", MessageBoxButton.OK,
                     MessageBoxImage.Exclamation);
                 return;
             }
@@ -47,7 +48,7 @@ namespace ErrorCorrection
             if (FileHandler.SaveFile(this.FileContent.Text, type) == true)
                 MessageBox.Show("Zapis do pliku powiodl sie!", "Informacja", MessageBoxButton.OK,
                     MessageBoxImage.Information);
-            else MessageBox.Show("Zapis do pliku NIE powiodl sie!", "Ostrzezenie", MessageBoxButton.OK,
+            else MessageBox.Show("Zapis do pliku NIE powiodl sie!", "Ostrzeżenie", MessageBoxButton.OK,
                 MessageBoxImage.Warning);
         }
 
@@ -67,7 +68,7 @@ namespace ErrorCorrection
             {
                 if (this.FileContent.Text == "")
                 {
-                    MessageBox.Show("Nie wczytano Pliku lub nie wpisano znakow!", "Ostrzezenie", MessageBoxButton.OK,
+                    MessageBox.Show("Nie wczytano Pliku lub nie wpisano znakow!", "Ostrzeżenie", MessageBoxButton.OK,
                         MessageBoxImage.Warning);
                     
                     return;
@@ -86,7 +87,7 @@ namespace ErrorCorrection
         {
             if (this.FileContent.Text == "")
             {
-                MessageBox.Show("Nie wczytano pliku lub nie wpisano znakow!", "Ostrzezenie", MessageBoxButton.OK,
+                MessageBox.Show("Nie wczytano pliku lub nie wpisano znaków!", "Ostrzeżenie", MessageBoxButton.OK,
                     MessageBoxImage.Warning);
 
                 return;
@@ -100,6 +101,38 @@ namespace ErrorCorrection
             var aaa = FileHandler.print_array_16_row(temp3).ToCharArray();
 
             this.FileContent.Text = FileHandler.print_array_16_row(temp3);
+        }
+
+        private void KonvBinTxt_OnClick(object sender, RoutedEventArgs e)
+        {
+            if (this.FileContent.Text == "")
+            {
+                MessageBox.Show("Nie wczytano pliku lub nie wpisano znakow!", "Ostrzeżenie", MessageBoxButton.OK,
+                    MessageBoxImage.Warning);
+
+                return;
+            }
+
+            string temp1 = FileContent.Text;
+            var errorCounter = Regex.Matches(temp1, @"[A-Za-zżźćńółęąśŻŹĆĄŚĘŁÓŃ2-9]").Count;
+
+            if (errorCounter>0 || temp1.Contains(" "))
+            {
+                MessageBox.Show($"Podany tekst nie jest binarny! Zawiera {errorCounter} niepoprawnych znaków", "Ostrzeżenie", MessageBoxButton.OK,
+                    MessageBoxImage.Hand);
+                return;
+            }
+
+            if (temp1.Length < 16)
+            {
+                MessageBox.Show("Błędny format - zbyt mało znaków!", "Ostrzeżenie", MessageBoxButton.OK,
+                    MessageBoxImage.Hand);
+                return;
+            }
+            var temp2 = FileHandler.ReadFile(temp1);
+            var temp3 = FileHandler.Extract_8_bit(temp2);
+            var temp4 = FileHandler.Decode(temp3);
+            FileContent.Text = temp4;
         }
     }
 }

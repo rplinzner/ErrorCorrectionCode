@@ -37,8 +37,10 @@ namespace ErrorCorrection
                 File.WriteAllText(sfd.FileName, text);
                 return true;
             }
+
             return false;
         }
+
         public static string print_array_16_row(char[,] table)
         {
             String temp = String.Empty;
@@ -91,6 +93,7 @@ namespace ErrorCorrection
 
             return read_mat;
         }
+
         public static string Extract_8_bit(char[,] table)
         {
             string temp = String.Empty;
@@ -103,10 +106,30 @@ namespace ErrorCorrection
                     temp += table[i, j];
                 }
             }
+
             return temp;
         }
+
+
+        public static string Decode(string text)
+        {
+            int numOfBytes = text.Length / 8;
+            byte[] bytes = new byte[numOfBytes];
+            for (int i = 0; i < numOfBytes; ++i)
+            {
+                bytes[i] = Convert.ToByte(text.Substring(8 * i, 8), 2);
+            }
+
+            string back = System.Text.Encoding.UTF8.GetString(bytes);
+
+            return back;
+        }
     }
-
-
-
 }
+
+    
+
+
+
+
+

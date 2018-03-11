@@ -11,7 +11,7 @@
         MaxHeight="450"
         MaxWidth ="700"
         WindowStartupLocation="CenterScreen"
-        Title="Error Corection by Rafał Plinzner and Michał Białecki" Height="450" Width="525">
+        Title="Error Correction by Rafał Plinzner and Michał Białecki" Height="450" Width="525">
     <Border Padding="10">
     <StackPanel>
 <!-- Podstawowe Informacje o programie-->
@@ -36,7 +36,8 @@
         <Button x:Name="KonvTxtBinButton" Click="KonvTxtBinButton_OnClick" BorderThickness="2" Content="Konwersja z tekstu do postaci binarnej" Margin="30 15 30 0" 
                 ToolTip="Konwersja znaków na postać binarną oraz dodanie sumy kontrolnej" />
         <Button BorderThickness="2" Content="Sprawdź błędy" Margin="30 15 30 0" />
-        <Button BorderThickness="2" Content="Konwertuj z postaci binarnej do tekstowej" Margin="30 15 30 0" />
+        <Button x:Name="KonvBinTxt" Click="KonvBinTxt_OnClick" BorderThickness="2" Content="Konwertuj z postaci binarnej na tekstową" Margin="30 15 30 0" 
+                ToolTip="Usuwa sumę kontrolną, konwertuje postać binarną na tekstową, a następnie wypisuje tekst" />
         <!--Pole do wyswietlania/wpisywania tekstu-->
         <TextBox x:Name="FileContent" TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Auto" Margin="0 20 0 0" Height="165" />
         
