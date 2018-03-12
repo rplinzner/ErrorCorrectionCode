@@ -57,8 +57,6 @@ namespace ErrorCorrection
             return temp;
         }
 
-       
-
         public static char[,] ReadFile(string text)
         {
             var size = 0;

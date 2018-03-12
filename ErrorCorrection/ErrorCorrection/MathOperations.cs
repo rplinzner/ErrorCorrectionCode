@@ -72,8 +72,9 @@ namespace ErrorCorrection
           
         }
 
-        public char[,] CheckErrors(char[,] bin_tab, char[,] tab_hash)
+        public int CheckErrors(char[,] bin_tab, char[,] tab_hash)
         {
+            int error_index = 17;
             char[,] errors = new char[bin_tab.Length/16,8];
 
             for (int i = 0; i < bin_tab.Length / 16; i++)
@@ -101,7 +102,42 @@ namespace ErrorCorrection
                 }
             }
 
-            return errors;
+
+            for (int k = 0; k < bin_tab.Length / 16; k++)
+            {
+                var czy_blad = true;            
+
+                for(int i=0;i<16;i++)
+                {
+                    czy_blad = true;
+
+                    for (int j = 0; j < 8; j++)
+                    {
+                        if (tab_hash[j,i] != (errors[k, j]))
+                        {
+                            czy_blad = false;
+                            break;
+                        }
+                    }
+
+                    if (czy_blad.Equals(true))
+                    {
+                        if (bin_tab[k, i].Equals('1'))
+                        {
+                            bin_tab[k, i] = '0';
+                        }
+                        else
+                        {
+                            bin_tab[k, i] = '1';
+                        }
+                       
+                        error_index = i;
+                        i = 17;
+                    }                   
+                }                          
+            }
+
+            return error_index;
         }
         
     };
