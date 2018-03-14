@@ -141,7 +141,12 @@ namespace ErrorCorrection
             var temp2 = FileHandler.ReadFile(temp1);
             var mo = new MathOperations();
             var macierz_bledy = mo.CheckErrors(temp2, mo.get_hash_table());
+<<<<<<< HEAD
             FileContent.Text = FileHandler.print_array_n_row(mo.CheckErrors(temp2, mo.get_hash_table()), 16);
+=======
+            //FileContent.Text = string.Join("", mo.CheckErrors(temp2,mo.get_hash_table()));
+            FileContent.Text = macierz_bledy.ToString();
+>>>>>>> 6a55d691f6dde5535ee592700f1aef5f28ba3d93
         }
     }
 }
