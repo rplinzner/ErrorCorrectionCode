@@ -6,22 +6,20 @@ using System.Threading.Tasks;
 
 namespace ErrorCorrection
 {
-   public class MathOperations
-
+    public class MathOperations
     {
-
         public char[,] get_hash_table()
         {
             char[,] tab_hash = new char[8, 16]
             {
-                {'1', '0', '1', '1', '0', '1', '0', '0', '1', '0', '0', '0', '0', '0', '0', '0'},
-                {'1', '0', '0', '1', '1', '1', '0', '0', '0', '1', '0', '0', '0', '0', '0', '0'},
-                {'1', '1', '1', '0', '1', '0', '1', '0', '0', '0', '1', '0', '0', '0', '0', '0'},
-                {'1', '1', '0', '0', '0', '1', '1', '0', '0', '0', '0', '1', '0', '0', '0', '0'},
-                {'1', '1', '1', '0', '1', '0', '0', '1', '0', '0', '0', '0', '1', '0', '0', '0'},
-                {'1', '0', '0', '1', '0', '1', '0', '1', '0', '0', '0', '0', '0', '1', '0', '0'},
-                {'0', '0', '1', '1', '1', '1', '1', '1', '0', '0', '0', '0', '0', '0', '1', '0'},
-                {'1', '1', '1', '0', '0', '1', '1', '1', '0', '0', '0', '0', '0', '0', '0', '1'}
+                {'0', '1', '1', '1', '0', '0', '1', '0', '1', '0', '0', '0', '0', '0', '0', '0'},
+                {'0', '1', '1', '0', '0', '1', '1', '0', '0', '1', '0', '0', '0', '0', '0', '0'},
+                {'1', '0', '1', '1', '0', '1', '0', '1', '0', '0', '1', '0', '0', '0', '0', '0'},
+                {'1', '0', '1', '0', '0', '0', '1', '1', '0', '0', '0', '1', '0', '0', '0', '0'},
+                {'1', '0', '1', '1', '1', '1', '0', '0', '0', '0', '0', '0', '1', '0', '0', '0'},
+                {'0', '1', '1', '0', '1', '0', '1', '0', '0', '0', '0', '0', '0', '1', '0', '0'},
+                {'0', '1', '0', '1', '1', '1', '1', '1', '0', '0', '0', '0', '0', '0', '1', '0'},
+                {'1', '0', '1', '1', '1', '0', '1', '1', '0', '0', '0', '0', '0', '0', '0', '1'}
 
             };
             return tab_hash;
@@ -39,7 +37,8 @@ namespace ErrorCorrection
                 }
 
             }
-            char[,] ctrl_sums = new char[bin_tab.Length / 8,8];
+
+            char[,] ctrl_sums = new char[bin_tab.Length / 8, 8];
 
             for (int i = 0; i < bin_tab.Length / 8; i++)
             {
@@ -54,7 +53,7 @@ namespace ErrorCorrection
                         }
                     }
 
-                    if (czy_parzyste) ctrl_sums[i,j] = '1';
+                    if (czy_parzyste) ctrl_sums[i, j] = '1';
                     else ctrl_sums[i, j] = '0';
 
                 }
@@ -69,16 +68,16 @@ namespace ErrorCorrection
             }
 
             return full_m;
-          
+
         }
 
-        public int CheckErrors(char[,] bin_tab, char[,] tab_hash)
+        public char[,] CheckErrors(char[,] bin_tab, char[,] tab_hash)
         {
-            int error_index = 17;
-            char[,] errors = new char[bin_tab.Length/16,8];
+            char[,] error_index = new char[bin_tab.Length / 16, 16];
+            char[,] errors = new char[bin_tab.Length / 16, 8];
 
             for (int i = 0; i < bin_tab.Length / 16; i++)
-            {         
+            {
                 for (int j = 0; j < 8; j++)
                 {
                     bool czy_parzyste = false;
@@ -98,47 +97,65 @@ namespace ErrorCorrection
                         {
                             errors[i, j] = '1';
                         }
-                    }          
+                    }
                 }
             }
 
-
             for (int k = 0; k < bin_tab.Length / 16; k++)
             {
-                var czy_blad = true;            
+                var czy_blad = true;
+                var ktory_blad = 0;
 
-                for(int i=0;i<16;i++)
+                for (int i = 0; i < 16; i++)
                 {
                     czy_blad = true;
 
                     for (int j = 0; j < 8; j++)
                     {
-                        if (tab_hash[j,i] != (errors[k, j]))
+                        if (tab_hash[j, i] != (errors[k, j]))
                         {
                             czy_blad = false;
                             break;
                         }
                     }
 
-                    if (czy_blad.Equals(true))
+                    if (czy_blad)
                     {
-                        if (bin_tab[k, i].Equals('1'))
-                        {
-                            bin_tab[k, i] = '0';
-                        }
-                        else
-                        {
-                            bin_tab[k, i] = '1';
-                        }
-                       
-                        error_index = i;
-                        i = 17;
-                    }                   
-                }                          
+                        error_index[k, i] = '1';
+                    }
+                    else
+                    {
+                        error_index[k, i] = '0';
+                    }
+                }
             }
 
             return error_index;
         }
-        
+
+        public char[,] CorrectErrors(char[,] error_index, char[,] bin_tab)
+        {
+            char[,] repaired_matrix = new char[bin_tab.Length / 16, 16];
+
+            for (int i = 0; i < bin_tab.Length / 16; i++)
+            {
+                for (int j = 0; j < 16; j++)
+                {
+                    if (error_index[i, j].Equals(('1')))
+                    {
+                        if (bin_tab[i, j].Equals('1'))
+                        {
+                            bin_tab[i, j] = '0';
+                        }
+                        else
+                        {
+                            bin_tab[i, j] = '1';
+                        }
+                    }
+                }
+            }
+
+            return repaired_matrix;
+        }
     };
 }
