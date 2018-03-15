@@ -138,13 +138,55 @@ namespace ErrorCorrection
                     MessageBoxImage.Hand);
                 return;
             }
+
+            //Część programu po sprawdzeniu czy w okienku nie ma błędów
+
             var temp2 = FileHandler.ReadFile(temp1);
             var mo = new MathOperations();
-            var macierz_bledy = mo.CheckErrors(temp2, mo.get_hash_table());
 
-            FileContent.Text = FileHandler.print_array_n_row(mo.CheckErrors(temp2, mo.get_hash_table()), 16);
-            //FileContent.Text = string.Join("", mo.CheckErrors(temp2,mo.get_hash_table()));
-            FileContent.Text = macierz_bledy.ToString();
+            //Sprawdzanie błędów
+            var errors = mo.CreateErrorArray(temp2);
+            var errorList = mo.FindAllErrors(temp2, errors, mo.get_hash_table());
+
+
+
+            //var tempStr = FileHandler.print_array_n_row(errors, 8); //wartość string służąca do sprawdzenia czy istnieją błędy
+
+            //Sprawdzanie w których wierszach wystąpiły błędy
+            //var rowsErr = mo.FindRowErrors(temp2, errors);
+            //string RowsErrStr = String.Empty;
+
+            //wypisywanie błędów
+            /* if (tempStr.Contains('1'))
+             {
+            for (int i = 0; i < rowsErr.Length; i++)
+            {
+                RowsErrStr += (rowsErr[i] + 1).ToString();
+                if (i < rowsErr.Length - 1) RowsErrStr += ", ";
+                else RowsErrStr += "\r\n";
+            }*/
+
+
+
+
+            //MessageBox.Show($"Zawiera błędy w następujących wierszach: {}");
+
+            FileContent.Text = FileHandler.print_array_n_row(errorList,16);
+                
+
+            //}
+            /*else
+            {
+                MessageBox.Show("nie zawiera");
+            }*/
+            
+
+
+
+            //var macierz_bledy = mo.FindErrors(temp2, mo.get_hash_table());
+            /* FileContent.Text = FileHandler.print_array_n_row(mo.FindErrors(temp2, mo.get_hash_table()), 16);
+             //FileContent.Text = string.Join("", mo.FindErrors(temp2,mo.get_hash_table()));
+             FileContent.Text = macierz_bledy.ToString();*/
         }
     }
 }
