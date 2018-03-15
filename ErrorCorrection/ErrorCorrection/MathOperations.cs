@@ -55,7 +55,6 @@ namespace ErrorCorrection
 
                     if (czy_parzyste) ctrl_sums[i, j] = '1';
                     else ctrl_sums[i, j] = '0';
-
                 }
             }
 
