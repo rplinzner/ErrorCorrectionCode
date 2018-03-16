@@ -147,46 +147,60 @@ namespace ErrorCorrection
             //Sprawdzanie błędów
             var errors = mo.CreateErrorArray(temp2);
             var errorList = mo.FindAllErrors(temp2, errors, mo.get_hash_table());
+            var checkIfAny = FileHandler.print_array_n_row(errorList, 16).Contains('1');
 
-
-
-            //var tempStr = FileHandler.print_array_n_row(errors, 8); //wartość string służąca do sprawdzenia czy istnieją błędy
-
-            //Sprawdzanie w których wierszach wystąpiły błędy
-            //var rowsErr = mo.FindRowErrors(temp2, errors);
-            //string RowsErrStr = String.Empty;
-
-            //wypisywanie błędów
-            /* if (tempStr.Contains('1'))
-             {
-            for (int i = 0; i < rowsErr.Length; i++)
+            if (checkIfAny)
             {
-                RowsErrStr += (rowsErr[i] + 1).ToString();
-                if (i < rowsErr.Length - 1) RowsErrStr += ", ";
-                else RowsErrStr += "\r\n";
-            }*/
+                string rowsWithErrors = String.Empty;
+                int numberOfErrors = 0;
+                string errorPlacement = String.Empty;
+                for (int i = 0; i < errorList.Length/16; i++)
+                {
+                    int doubleError = 0;
+                    for (int j = 0; j < 16; j++)
+                    {
+                        if (errorList[i, j] == '1')
+                        {
+                            doubleError++;
+                            numberOfErrors++;
+                            rowsWithErrors += i+1.ToString();
+                            if (doubleError == 2)
+                            {
+                                errorPlacement += ", "+ " bit " + (j + 1).ToString();
+                            }
+                            else
+                            {
+                                errorPlacement += "Rząd " + (i + 1).ToString() + " bit " + (j + 1).ToString();
+                            }
+                        }
+                    }
+                    if (doubleError > 0)
+                    {
+                        errorPlacement += "\r\n";
+                    }
 
+                    if (i == (errorList.Length / 16) - 1)
+                    {
+                        rowsWithErrors += "";
+                    }
+                    else
+                    {
+                        rowsWithErrors += ", ";
+                    }
+                }
+                MessageBoxResult result = MessageBox.Show($"Znaleziono {numberOfErrors} błedów:\r\n" + errorPlacement+"\r\nCZY CHCIAŁBYŚ JE NAPRAWIĆ?", 
+                    "Powiadomienie o Błędach", MessageBoxButton.YesNo, MessageBoxImage.Question);
 
-
-
-            //MessageBox.Show($"Zawiera błędy w następujących wierszach: {}");
-
-            FileContent.Text = FileHandler.print_array_n_row(errorList,16);
-                
-
-            //}
-            /*else
+                if (result == MessageBoxResult.Yes)
+                {
+                    mo.CorrectErrors(errorList, temp2);
+                    FileContent.Text = FileHandler.print_array_n_row(temp2, 16);
+                }
+            }
+            else
             {
-                MessageBox.Show("nie zawiera");
-            }*/
-            
-
-
-
-            //var macierz_bledy = mo.FindErrors(temp2, mo.get_hash_table());
-            /* FileContent.Text = FileHandler.print_array_n_row(mo.FindErrors(temp2, mo.get_hash_table()), 16);
-             //FileContent.Text = string.Join("", mo.FindErrors(temp2,mo.get_hash_table()));
-             FileContent.Text = macierz_bledy.ToString();*/
+               MessageBox.Show("Nie znaleziono błędów", "Informacja", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
         }
     }
 }

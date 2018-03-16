@@ -126,13 +126,13 @@ namespace ErrorCorrection
         }
 
 
-        public int[] FindRowErrors(char[,] bin_tab, char[,] errors)
+        public int[] showRowsWithErrors(char[,] errors)
         {
             List<int> rowsWithErrors = new List<int>();
 
-            for (int i = 0; i < bin_tab.Length / 16; i++)
+            for (int i = 0; i < errors.Length / 16; i++)
             {
-                for (int j = 0; j < 8; j++)
+                for (int j = 0; j < 16; j++)
                 {
                     if (errors[i, j].Equals('1'))
                     {
