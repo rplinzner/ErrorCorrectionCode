@@ -1,6 +1,4 @@
-﻿<<<<<<< HEAD
-﻿
-=======
+
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,9 +10,9 @@ namespace ErrorCorrection
 {
     public class MathOperations
     {
-        public char[,] get_hash_table()
+        public char[,] get_hash_table()  // metoda zwracajaca macierz haszujaca
         {
-            char[,] tab_hash = new char[8, 16]
+            char[,] tab_hash = new char[8, 16] //deklaracja macierzy haszującej (pierwsze 8 kolumn ,a drugie 8 kolumn to macierz jednostkowa
             {
                 {'0', '1', '1', '1', '0', '0', '1', '0', '1', '0', '0', '0', '0', '0', '0', '0'},
                 {'0', '1', '1', '0', '0', '1', '1', '0', '0', '1', '0', '0', '0', '0', '0', '0'},
@@ -29,7 +27,7 @@ namespace ErrorCorrection
             return tab_hash;
         }
 
-        public char[] XorHashColumns(int a, int b)
+        public char[] XorHashColumns(int a, int b) //
         {
             char[] temp = new char[8];
             var hasz = get_hash_table();
@@ -49,26 +47,26 @@ namespace ErrorCorrection
             return temp;
         }
 
-        public char[,] suma_kontrolna(char[,] bin_tab, char[,] tab_hash)
-        {
-            char[,] full_m = new char[bin_tab.Length / 8, 16];
+        public char[,] suma_kontrolna(char[,] bin_tab, char[,] tab_hash)  //metoda sluzaca do generowania sumy kontrolnej dla kazdego slowa bitowego (8 bitow)
+        { 
+            char[,] full_m = new char[bin_tab.Length / 8, 16];  //deklaracja macierzy do ktorej wpisane zostana slowa bitowe i sumy kontrolne dla kazdego ze slow
 
             for (int i = 0; i < bin_tab.Length / 8; i++)
             {
                 for (int j = 0; j < 8; j++)
                 {
-                    full_m[i, j] = bin_tab[i, j];
+                    full_m[i, j] = bin_tab[i, j];  //wpisanie do pierwszych osmiu komorek wiersza bitow kazdego ze znakow
                 }
 
             }
 
-            char[,] ctrl_sums = new char[bin_tab.Length / 8, 8];
+            char[,] ctrl_sums = new char[bin_tab.Length / 8, 8];  //dekalracja tablicy zawierajacej sumy kontrolne
 
             for (int i = 0; i < bin_tab.Length / 8; i++)
             {
                 for (int j = 0; j < 8; j++)
                 {
-                    bool czy_parzyste = false;
+                    bool czy_parzyste = false; //deklaracja flagi parzystosci
                     for (int k = 0; k < 8; k++)
                     {
                         if ((bin_tab[i, k].Equals('1')) && (bin_tab[i, k].Equals(tab_hash[j, k])))
@@ -86,15 +84,15 @@ namespace ErrorCorrection
             {
                 for (int j = 0; j < 8; j++)
                 {
-                    full_m[i, j + 8] = ctrl_sums[i, j];
+                    full_m[i, j + 8] = ctrl_sums[i, j]; //dopisanie bitow sumy kontrolnej do bitow slowa
                 }
             }
 
-            return full_m;
+            return full_m; //zwrocenie pelnej macierzy
 
         }
 
-        public char[,] CreateErrorArray(char[,] bin_tab) //wykonujemy mnozenie tablic
+        public char[,] CreateErrorArray(char[,] bin_tab) //metoda sluzaca do tworzenia macierzy bledow
         {
             char[,] errors = new char[bin_tab.Length / 16, 8];
             var tab_hash = get_hash_table();
@@ -105,7 +103,7 @@ namespace ErrorCorrection
                 {
                     bool czy_parzyste = false;
 
-                    for (int k = 0; k < 16; k++)
+                    for (int k = 0; k < 16; k++) //nastepuje mnozenie macierzy
                     {
                         if (bin_tab[i, k].Equals('1') && tab_hash[j, k].Equals('1'))
                         {
@@ -124,46 +122,46 @@ namespace ErrorCorrection
                 }
             }
 
-            return errors;
+            return errors; //zwrocenie macierzy bledow 
 
         }
 
 
-        public int[] FindRowErrors(char[,] bin_tab, char[,] errors)
+        public int[] FindRowErrors(char[,] bin_tab, char[,] errors) //metoda zwracajaca indeksy wierszy w ktorych wystepuja bledy
         {
-            List<int> rowsWithErrors = new List<int>();
+            List<int> rowsWithErrors = new List<int>(); //deklaracja listy 
 
             for (int i = 0; i < bin_tab.Length / 16; i++)
             {
                 for (int j = 0; j < 8; j++)
                 {
-                    if (errors[i, j].Equals('1'))
+                    if (errors[i, j].Equals('1')) 
                     {
-                        rowsWithErrors.Add(i);
+                        rowsWithErrors.Add(i); //jesli w danym wierszu wystepuje blad, umieszczamy jego indeks w liscie
                         break;
                     }
                 }
             }
 
-            var errorRows = new int[rowsWithErrors.Count];
+            var errorRows = new int[rowsWithErrors.Count]; 
             rowsWithErrors.CopyTo(errorRows);
-            return errorRows;
+            return errorRows; //zwrocenie wektora z indeksami wierszy
         }
 
-        public bool CompareTwoArrays(char[,] arr1, int index, char[] arr2)
+        public bool CompareTwoArrays(char[,] arr1, int index, char[] arr2) //metoda porownujaca dwa wektory
         {
-            bool result = true;
+            bool result = true; //deklaracja flagi zgodnosci wektorow
 
             for (int i = 0; i < 8; i++)
             {
                 if (arr1[index,i] != arr2[i])
                 {
-                    result = false;
+                    result = false; //jesli wystapi niezgodnosc, flaga jest odpowiednio ustawiana i nastepuje wyjscie z petli
                     break;
                 }
             }
 
-            return result;
+            return result; //zwrocenie wartosci flagi
         }
 
         public char[,] FindAllErrors(char[,] bin_tab, char[,] errors, char[,] hasz_tab)
@@ -232,9 +230,9 @@ namespace ErrorCorrection
 
         }
 
-        public char[,] CorrectErrors(char[,] error_index, char[,] bin_tab)
+        public char[,] CorrectErrors(char[,] error_index, char[,] bin_tab) //metoda sluzaca do poprawiania bledow 
         {
-            char[,] repaired_matrix = new char[bin_tab.Length / 16, 16];
+            char[,] repaired_matrix = new char[bin_tab.Length / 16, 16]; //deklaracja macierzy do ktorej zostana wpisane poprawne bity
 
             for (int i = 0; i < bin_tab.Length / 16; i++)
             {
@@ -254,8 +252,7 @@ namespace ErrorCorrection
                 }
             }
 
-            return repaired_matrix;
-        }
+            return repaired_matrix; //zwrocenie naprawionej macierzy
+        } 
     };
 }
->>>>>>> parent of 956c954... Działa i chuj
