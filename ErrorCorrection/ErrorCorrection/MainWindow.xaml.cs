@@ -138,13 +138,69 @@ namespace ErrorCorrection
                     MessageBoxImage.Hand);
                 return;
             }
+
+            //Część programu po sprawdzeniu czy w okienku nie ma błędów
+
             var temp2 = FileHandler.ReadFile(temp1);
             var mo = new MathOperations();
-            var macierz_bledy = mo.CheckErrors(temp2, mo.get_hash_table());
 
-            FileContent.Text = FileHandler.print_array_n_row(mo.CheckErrors(temp2, mo.get_hash_table()), 16);
-            //FileContent.Text = string.Join("", mo.CheckErrors(temp2,mo.get_hash_table()));
-            FileContent.Text = macierz_bledy.ToString();
+            //Sprawdzanie błędów
+            var errors = mo.CreateErrorArray(temp2);
+            var errorList = mo.FindAllErrors(temp2, errors, mo.get_hash_table());
+            var checkIfAny = FileHandler.print_array_n_row(errorList, 16).Contains('1');
+
+            if (checkIfAny)
+            {
+                string rowsWithErrors = String.Empty;
+                int numberOfErrors = 0;
+                string errorPlacement = String.Empty;
+                for (int i = 0; i < errorList.Length/16; i++)
+                {
+                    int doubleError = 0;
+                    for (int j = 0; j < 16; j++)
+                    {
+                        if (errorList[i, j] == '1')
+                        {
+                            doubleError++;
+                            numberOfErrors++;
+                            rowsWithErrors += i+1.ToString();
+                            if (doubleError == 2)
+                            {
+                                errorPlacement += ", "+ " bit " + (j + 1).ToString();
+                            }
+                            else
+                            {
+                                errorPlacement += "Rząd " + (i + 1).ToString() + " bit " + (j + 1).ToString();
+                            }
+                        }
+                    }
+                    if (doubleError > 0)
+                    {
+                        errorPlacement += "\r\n";
+                    }
+
+                    if (i == (errorList.Length / 16) - 1)
+                    {
+                        rowsWithErrors += "";
+                    }
+                    else
+                    {
+                        rowsWithErrors += ", ";
+                    }
+                }
+                MessageBoxResult result = MessageBox.Show($"Znaleziono {numberOfErrors} błedów:\r\n" + errorPlacement+"\r\nCZY CHCIAŁBYŚ JE NAPRAWIĆ?", 
+                    "Powiadomienie o Błędach", MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+                if (result == MessageBoxResult.Yes)
+                {
+                    mo.CorrectErrors(errorList, temp2);
+                    FileContent.Text = FileHandler.print_array_n_row(temp2, 16);
+                }
+            }
+            else
+            {
+               MessageBox.Show("Nie znaleziono błędów", "Informacja", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
         }
     }
 }
