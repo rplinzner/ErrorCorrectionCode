@@ -25,14 +25,14 @@ namespace ErrorCorrection
             return "";
         }
 
-        public static bool SaveFile(string text, string mode)
+        public static bool SaveFile(string text, string mode) //metoda sluzaca do zapisu do pliku
         {
             SaveFileDialog sfd = new SaveFileDialog();
-            if (mode.Contains("TXT")) sfd.Filter = "Plik Tekstowy (*.txt)|*.txt";
-            else if (mode.Contains("BIN")) sfd.Filter = "Plik Binarny (*.bin)|*.bin";
+            if (mode.Contains("TXT")) sfd.Filter = "Plik Tekstowy (*.txt)|*.txt"; //opcja zapisu do pliku txt
+            else if (mode.Contains("BIN")) sfd.Filter = "Plik Binarny (*.bin)|*.bin"; //opcja zapisu do pliku bin
             else sfd.Filter = "Plik Dowolny (*.*)|*.*";
             sfd.FileName = "Wiadomosc";
-            if (sfd.ShowDialog() == true)
+            if (sfd.ShowDialog() == true) 
             {
                 File.WriteAllText(sfd.FileName, text);
                 return true;
@@ -41,23 +41,23 @@ namespace ErrorCorrection
             return false;
         }
 
-        public static string print_array_n_row(char[,] table, int rows)
+        public static string print_array_n_row(char[,] table, int rows) //metoda sluzaca do wypisania macierzy w oknie dialogowym
         {
-            String temp = String.Empty;
+            String temp = String.Empty; //deklaracja pustego stringa
 
             for (int i = 0; i < table.Length / rows; i++)
             {
                 for (int j = 0; j < rows; j++)
                 {
-                    temp += table[i, j];
+                    temp += table[i, j]; //dopisanie znaku z danej komorki macierzy do stringa
                 }
-                temp += "\r\n";
+                temp += "\r\n"; //dodanie znaku konca wiersza
             }
 
-            return temp;
+            return temp; //zwrocenie macierzy w postaci stworzonego stringa
         }
 
-        public static char[,] ReadFile(string text)
+        public static char[,] ReadFile(string text) 
         {
             var size = 0;
 
@@ -93,23 +93,24 @@ namespace ErrorCorrection
             return read_mat;
         }
 
-        public static string Extract_8_bit(char[,] table)
+        public static string Extract_8_bit(char[,] table) //metoda sluzaca do wydzielenia pierwszych 8 bitow z kazdego wiersza macierzy 16 bitowej
         {
-            string temp = String.Empty;
-            int size = table.Length;
-            size = size / 16;
-            for (int i = 0; i < size; i++)
+            string temp = String.Empty; //deklaracja pustego stringa
+            int size = table.Length;   //pobranie rozmiaru macierzy podanej w parametrze metody (ilosc wszystkich elementow)
+            size = size / 16; //liczba wierszy macierzy 
+
+            for (int i = 0; i < size; i++)  
             {
                 for (int j = 0; j < 8; j++)
                 {
-                    temp += table[i, j];
+                    temp += table[i, j]; //wpisanie danego bitu do stringa
                 }
             }
-            return temp;
+            return temp; //zwrocenie utworzonego stringa
         }
 
 
-        public static string Decode(string text)
+        public static string Decode(string text) 
         {
             int numOfBytes = text.Length / 8;
             byte[] bytes = new byte[numOfBytes];
