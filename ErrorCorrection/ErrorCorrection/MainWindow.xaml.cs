@@ -21,14 +21,14 @@ namespace ErrorCorrection
     /// </summary>
     public partial class MainWindow : Window
     {
-        public MainWindow()
+        public MainWindow() //wczytanie głównego komponentu GUI
         {
             InitializeComponent();
-
         }
 
-        private void Save_Button_OnClick(object sender, RoutedEventArgs e)
+        private void Save_Button_OnClick(object sender, RoutedEventArgs e)  //zaprogramowanie przycisku służącego do zapisywania zawartości okienka
         {
+            //Początek sekcji z kodem zapobiegającym zapisem nieprawidłowych danych
             if (this.SaveModeSelect == null) return;
             if (this.FileContent.Text == "")
             {
@@ -42,9 +42,9 @@ namespace ErrorCorrection
                     MessageBoxImage.Exclamation);
                 return;
             }
-           
-           var type = (string) this.SaveModeSelect.SelectionBoxItem;
-           
+            //koniec sekcji
+            var type = (string)this.SaveModeSelect.SelectionBoxItem;
+
             if (FileHandler.SaveFile(this.FileContent.Text, type) == true)
                 MessageBox.Show("Zapis do pliku powiodl sie!", "Informacja", MessageBoxButton.OK,
                     MessageBoxImage.Information);
@@ -52,11 +52,11 @@ namespace ErrorCorrection
                 MessageBoxImage.Warning);
         }
 
-        private void OpenButton_OnClick(object sender, RoutedEventArgs e)
+        private void OpenButton_OnClick(object sender, RoutedEventArgs e) //programowanie przycisku służącego do otwierania tekstu z pliku
         {
             var text = FileHandler.OpenFile();
             this.FileContent.Text = text;
-            
+
         }
 
         private void KonvTxtBinButton_OnClick(object sender, RoutedEventArgs e)
@@ -74,9 +74,9 @@ namespace ErrorCorrection
             var mo = new MathOperations();
             var temp3 = mo.suma_kontrolna(temp2, mo.get_hash_table());
 
-            var aaa = FileHandler.print_array_n_row(temp3,16).ToCharArray();
+            var aaa = FileHandler.print_array_n_row(temp3, 16).ToCharArray();
 
-            this.FileContent.Text = FileHandler.print_array_n_row(temp3,16);
+            this.FileContent.Text = FileHandler.print_array_n_row(temp3, 16);
         }
 
         private void KonvBinTxt_OnClick(object sender, RoutedEventArgs e)
@@ -92,7 +92,7 @@ namespace ErrorCorrection
             string temp1 = FileContent.Text;
             var errorCounter = Regex.Matches(temp1, @"[A-Za-zżźćńółęąśŻŹĆĄŚĘŁÓŃ2-9]").Count;
 
-            if (errorCounter>0 || temp1.Contains(" "))
+            if (errorCounter > 0 || temp1.Contains(" "))
             {
                 MessageBox.Show($"Podany tekst nie jest binarny! Zawiera {errorCounter} niepoprawnych znaków", "Ostrzeżenie", MessageBoxButton.OK,
                     MessageBoxImage.Hand);
@@ -123,7 +123,7 @@ namespace ErrorCorrection
             }
 
             string temp1 = FileContent.Text;
-            var errorCounter = Regex.Matches(temp1, @"[A-Za-zżźćńółęąśŻŹĆĄŚĘŁÓŃ2-9]").Count;
+            var errorCounter = Regex.Matches(temp1, @"[A-Za-zżźćńółęąśŻŹĆĄŚĘŁÓŃ2-9]").Count;    //sprawdzanie, czy w okienku występują tylko "0" i "1"
 
             if (errorCounter > 0 || temp1.Contains(" "))
             {
@@ -147,46 +147,60 @@ namespace ErrorCorrection
             //Sprawdzanie błędów
             var errors = mo.CreateErrorArray(temp2);
             var errorList = mo.FindAllErrors(temp2, errors, mo.get_hash_table());
+            var checkIfAny = FileHandler.print_array_n_row(errorList, 16).Contains('1');
 
-
-
-            //var tempStr = FileHandler.print_array_n_row(errors, 8); //wartość string służąca do sprawdzenia czy istnieją błędy
-
-            //Sprawdzanie w których wierszach wystąpiły błędy
-            //var rowsErr = mo.FindRowErrors(temp2, errors);
-            //string RowsErrStr = String.Empty;
-
-            //wypisywanie błędów
-            /* if (tempStr.Contains('1'))
-             {
-            for (int i = 0; i < rowsErr.Length; i++)
+            if (checkIfAny)
             {
-                RowsErrStr += (rowsErr[i] + 1).ToString();
-                if (i < rowsErr.Length - 1) RowsErrStr += ", ";
-                else RowsErrStr += "\r\n";
-            }*/
+                string rowsWithErrors = String.Empty;
+                int numberOfErrors = 0;
+                string errorPlacement = String.Empty;
+                for (int i = 0; i < errorList.Length / 16; i++)
+                {
+                    int doubleError = 0;
+                    for (int j = 0; j < 16; j++)
+                    {
+                        if (errorList[i, j] == '1')
+                        {
+                            doubleError++;
+                            numberOfErrors++;
+                            rowsWithErrors += i + 1.ToString();
+                            if (doubleError == 2)
+                            {
+                                errorPlacement += ", " + "bit " + (j + 1).ToString();
+                            }
+                            else
+                            {
+                                errorPlacement += "Rząd " + (i + 1).ToString() + " bit " + (j + 1).ToString();
+                            }
+                        }
+                    }
+                    if (doubleError > 0)
+                    {
+                        errorPlacement += "\r\n";
+                    }
 
+                    if (i == (errorList.Length / 16) - 1)
+                    {
+                        rowsWithErrors += "";
+                    }
+                    else
+                    {
+                        rowsWithErrors += ", ";
+                    }
+                }
+                MessageBoxResult result = MessageBox.Show($"Znaleziono {numberOfErrors} błedów:\r\n" + errorPlacement + "\r\nCZY CHCIAŁBYŚ JE NAPRAWIĆ?",
+                    "Powiadomienie o Błędach", MessageBoxButton.YesNo, MessageBoxImage.Question);
 
-
-
-            //MessageBox.Show($"Zawiera błędy w następujących wierszach: {}");
-
-            FileContent.Text = FileHandler.print_array_n_row(errorList,16);
-                
-
-            //}
-            /*else
+                if (result == MessageBoxResult.Yes)
+                {
+                    mo.CorrectErrors(errorList, temp2);
+                    FileContent.Text = FileHandler.print_array_n_row(temp2, 16);
+                }
+            }
+            else
             {
-                MessageBox.Show("nie zawiera");
-            }*/
-            
-
-
-
-            //var macierz_bledy = mo.FindErrors(temp2, mo.get_hash_table());
-            /* FileContent.Text = FileHandler.print_array_n_row(mo.FindErrors(temp2, mo.get_hash_table()), 16);
-             //FileContent.Text = string.Join("", mo.FindErrors(temp2,mo.get_hash_table()));
-             FileContent.Text = macierz_bledy.ToString();*/
+                MessageBox.Show("Nie znaleziono błędów", "Informacja", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
         }
     }
 }

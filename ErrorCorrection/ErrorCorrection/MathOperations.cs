@@ -79,7 +79,6 @@ namespace ErrorCorrection
                     else ctrl_sums[i, j] = '0';
                 }
             }
-
             for (int i = 0; i < bin_tab.Length / 8; i++)
             {
                 for (int j = 0; j < 8; j++)
@@ -89,7 +88,6 @@ namespace ErrorCorrection
             }
 
             return full_m; //zwrocenie pelnej macierzy
-
         }
 
         public char[,] CreateErrorArray(char[,] bin_tab) //metoda sluzaca do tworzenia macierzy bledow
@@ -123,29 +121,27 @@ namespace ErrorCorrection
             }
 
             return errors; //zwrocenie macierzy bledow 
-
         }
 
-
-        public int[] FindRowErrors(char[,] bin_tab, char[,] errors) //metoda zwracajaca indeksy wierszy w ktorych wystepuja bledy
+        public int[] showRowsWithErrors(char[,] errors) //metoda zwracajaca indeksy wierszy w ktorych wystepuja bledy
         {
-            List<int> rowsWithErrors = new List<int>(); //deklaracja listy 
+            List<int> rowsWithErrors = new List<int>();
 
-            for (int i = 0; i < bin_tab.Length / 16; i++)
+            for (int i = 0; i < errors.Length / 16; i++)
             {
-                for (int j = 0; j < 8; j++)
+                for (int j = 0; j < 16; j++)
                 {
-                    if (errors[i, j].Equals('1')) 
+                    if (errors[i, j].Equals('1'))
                     {
-                        rowsWithErrors.Add(i); //jesli w danym wierszu wystepuje blad, umieszczamy jego indeks w liscie
+                        rowsWithErrors.Add(i);  //jesli w danym wierszu wystepuje blad, umieszczamy jego indeks w liscie
                         break;
                     }
                 }
             }
 
-            var errorRows = new int[rowsWithErrors.Count]; 
+            var errorRows = new int[rowsWithErrors.Count];
             rowsWithErrors.CopyTo(errorRows);
-            return errorRows; //zwrocenie wektora z indeksami wierszy
+            return errorRows;   //zwrocenie wektora z indeksami wierszy
         }
 
         public bool CompareTwoArrays(char[,] arr1, int index, char[] arr2) //metoda porownujaca dwa wektory
@@ -160,7 +156,6 @@ namespace ErrorCorrection
                     break;
                 }
             }
-
             return result; //zwrocenie wartosci flagi
         }
 
@@ -191,7 +186,6 @@ namespace ErrorCorrection
                             break;
                         }
                     }
-
                     if (IsErrorSingle)
                     {
                         errorPlacement[i, j] = '1';
@@ -219,15 +213,12 @@ namespace ErrorCorrection
 
                             if (done) break;
                         }
-
                         if (done) break;
+
                     }
                 }
-
             }
-
             return errorPlacement;
-
         }
 
         public char[,] CorrectErrors(char[,] error_index, char[,] bin_tab) //metoda sluzaca do poprawiania bledow 
